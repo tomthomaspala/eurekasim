@@ -11,6 +11,9 @@
 #define GL_QUADS                          0x0007
 #define GL_QUAD_STRIP                     0x0008
 #define GL_POLYGON                        0x0009
+#define GL_BLEND						  0x0BE2
+#define GL_SRC_ALPHA					  0x0302
+#define GL_ONE_MINUS_SRC_ALPHA			  0x0303
 
 #define OBJECT_3D_TREE_ROOT_TITLE					_T("3D Object Demo")
 #define OBJECT_3D_TREE_LEAF_PATTERN_TITLE			_T("Object Pattern Demo")

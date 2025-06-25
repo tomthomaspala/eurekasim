@@ -494,7 +494,7 @@ void CObjectDemoExperiment::DrawCar()
 	ApplicationView->InitializeEnvironment(TRUE);
 	ApplicationView->BeginGraphicsCommands();
 
-	// Set the Background Color
+	// Set Background Color
 	ApplicationView->SetBkgColor(
 		GetRValue(m_ObjectPattern.m_Color) / 255.0f,
 		GetGValue(m_ObjectPattern.m_Color) / 255.0f,
@@ -507,6 +507,7 @@ void CObjectDemoExperiment::DrawCar()
 		return;
 	}
 
+	// Create OpenGLView
 	CComPtr<IOpenGLView> OpenGLView;
 	HR = OpenGLView.CoCreateInstance(CLSID_OpenGLView);
 	if (FAILED(HR))
@@ -514,96 +515,110 @@ void CObjectDemoExperiment::DrawCar()
 		return;
 	}
 
+	// Base translation
 	OpenGLView->glTranslatef(0.0f, 0.0f, 0.0f);
 
-	// --- Draw Car Base Body ---
-	OpenGLView->glColor3f(0.8f, 0.0f, 0.0f); // red body
+	// --- Car Base Body ---
+	OpenGLView->glColor3f(0.8f, 0.0f, 0.0f); // red
 	OpenGLView->glBegin(GL_QUADS);
+
 	// Bottom
 	OpenGLView->glVertex3f(-1.0f, -0.25f, 0.5f);
 	OpenGLView->glVertex3f(1.0f, -0.25f, 0.5f);
 	OpenGLView->glVertex3f(1.0f, -0.25f, -0.5f);
 	OpenGLView->glVertex3f(-1.0f, -0.25f, -0.5f);
 
-	// Top of base (lower than roof)
+	// Top
 	OpenGLView->glVertex3f(-1.0f, 0.25f, 0.5f);
 	OpenGLView->glVertex3f(1.0f, 0.25f, 0.5f);
 	OpenGLView->glVertex3f(1.0f, 0.25f, -0.5f);
 	OpenGLView->glVertex3f(-1.0f, 0.25f, -0.5f);
 
-	// Front
-	OpenGLView->glVertex3f(-1.0f, -0.25f, 0.5f);
-	OpenGLView->glVertex3f(-1.0f, 0.25f, 0.5f);
-	OpenGLView->glVertex3f(1.0f, 0.25f, 0.5f);
+	// Front (X = +1.0f)
 	OpenGLView->glVertex3f(1.0f, -0.25f, 0.5f);
-
-	// Back
-	OpenGLView->glVertex3f(-1.0f, -0.25f, -0.5f);
-	OpenGLView->glVertex3f(-1.0f, 0.25f, -0.5f);
+	OpenGLView->glVertex3f(1.0f, 0.25f, 0.5f);
 	OpenGLView->glVertex3f(1.0f, 0.25f, -0.5f);
 	OpenGLView->glVertex3f(1.0f, -0.25f, -0.5f);
 
-	// Left
+	// Back (X = -1.0f)
 	OpenGLView->glVertex3f(-1.0f, -0.25f, 0.5f);
 	OpenGLView->glVertex3f(-1.0f, 0.25f, 0.5f);
 	OpenGLView->glVertex3f(-1.0f, 0.25f, -0.5f);
 	OpenGLView->glVertex3f(-1.0f, -0.25f, -0.5f);
 
-	// Right
-	OpenGLView->glVertex3f(1.0f, -0.25f, 0.5f);
+	// Left (Z = +0.5f)
+	OpenGLView->glVertex3f(-1.0f, -0.25f, 0.5f);
+	OpenGLView->glVertex3f(-1.0f, 0.25f, 0.5f);
 	OpenGLView->glVertex3f(1.0f, 0.25f, 0.5f);
+	OpenGLView->glVertex3f(1.0f, -0.25f, 0.5f);
+
+	// Right (Z = -0.5f)
+	OpenGLView->glVertex3f(-1.0f, -0.25f, -0.5f);
+	OpenGLView->glVertex3f(-1.0f, 0.25f, -0.5f);
 	OpenGLView->glVertex3f(1.0f, 0.25f, -0.5f);
 	OpenGLView->glVertex3f(1.0f, -0.25f, -0.5f);
+
 	OpenGLView->glEnd();
 
-	// --- Draw Car Roof (Smaller Box on Top) ---
-	OpenGLView->glColor3f(0.3f, 0.3f, 0.3f); // dark gray roof
+	// --- Roof Box ---
+	OpenGLView->glColor3f(0.3f, 0.3f, 0.3f); // dark gray
 	OpenGLView->glBegin(GL_QUADS);
-	// Bottom of roof
+
+	// Bottom
 	OpenGLView->glVertex3f(-0.6f, 0.25f, 0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.25f, 0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.25f, -0.3f);
 	OpenGLView->glVertex3f(-0.6f, 0.25f, -0.3f);
 
-	// Top of roof
+	// Top
 	OpenGLView->glVertex3f(-0.6f, 0.55f, 0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.55f, 0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.55f, -0.3f);
 	OpenGLView->glVertex3f(-0.6f, 0.55f, -0.3f);
 
-	// Front of roof
+	// Left side (Z = +0.3)
 	OpenGLView->glVertex3f(-0.6f, 0.25f, 0.3f);
 	OpenGLView->glVertex3f(-0.6f, 0.55f, 0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.55f, 0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.25f, 0.3f);
 
-	// Back of roof
+	// Right side (Z = -0.3)
 	OpenGLView->glVertex3f(-0.6f, 0.25f, -0.3f);
 	OpenGLView->glVertex3f(-0.6f, 0.55f, -0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.55f, -0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.25f, -0.3f);
 
-	// Left side of roof
+	// Back (X = -0.6f)
 	OpenGLView->glVertex3f(-0.6f, 0.25f, 0.3f);
 	OpenGLView->glVertex3f(-0.6f, 0.55f, 0.3f);
 	OpenGLView->glVertex3f(-0.6f, 0.55f, -0.3f);
 	OpenGLView->glVertex3f(-0.6f, 0.25f, -0.3f);
 
-	// Right side of roof
+	OpenGLView->glEnd();
+
+	// --- Front Transparent Windshield (X = +0.6f) ---
+	OpenGLView->glEnable(GL_BLEND);
+	OpenGLView->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	OpenGLView->glColor4f(0.5f, 0.8f, 1.0f, 0.3f); // transparent light blue
+
+	OpenGLView->glBegin(GL_QUADS);
 	OpenGLView->glVertex3f(0.6f, 0.25f, 0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.55f, 0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.55f, -0.3f);
 	OpenGLView->glVertex3f(0.6f, 0.25f, -0.3f);
 	OpenGLView->glEnd();
 
-	// --- Draw Wheels ---
+	OpenGLView->glDisable(GL_BLEND);
+
+	// --- Wheels ---
 	const float wheel_radius = 0.2f;
 	const int segments = 16;
+
 	auto DrawWheel = [&](float x, float y, float z)
 	{
 		OpenGLView->glPushMatrix();
 		OpenGLView->glTranslatef(x, y, z);
-		OpenGLView->glColor3f(0.1f, 0.1f, 0.1f); // black wheels
+		OpenGLView->glColor3f(0.1f, 0.1f, 0.1f); // black
 		OpenGLView->glBegin(GL_TRIANGLE_FAN);
 		OpenGLView->glVertex3f(0.0f, 0.0f, 0.0f);
 		for (int i = 0; i <= segments; ++i)
@@ -617,20 +632,16 @@ void CObjectDemoExperiment::DrawCar()
 		OpenGLView->glPopMatrix();
 	};
 
-	// Front-left
+	// Front-left, front-right, rear-left, rear-right
 	DrawWheel(-0.7f, -0.35f, 0.6f);
-	// Front-right
 	DrawWheel(0.7f, -0.35f, 0.6f);
-	// Rear-left
 	DrawWheel(-0.7f, -0.35f, -0.6f);
-	// Rear-right
 	DrawWheel(0.7f, -0.35f, -0.6f);
 
 	ApplicationView->EndNewDisplayList();
 	ApplicationView->EndGraphicsCommands();
 	ApplicationView->Refresh();
 }
-
 
 
 void CObjectDemoExperiment::DrawCube()
